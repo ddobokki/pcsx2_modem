@@ -12,27 +12,29 @@ https://youtu.be/luzijcTlwYk?si=nV5E8qtBftBgjss6
 
 ## クイックスタート
 
-### プレイヤーA（サーバー / 着信側）
+### プレイヤーA（着信側）
 
 1. PCSX2を開き、**Settings > Controllers > USB > Port 1** に移動
 2. Device Typeを **ME56PS2 Modem** に設定
 3. **Settings** をクリックして設定:
+   - **Receive Side**: 有効（既定値 — チェック済み）
    - **Port**: ポート番号を入力（例: `10023`）
-   - **Server Mode**: 有効（チェック）
 4. ゲームを起動し、モデム対戦メニューに進む
 5. プレイヤーBの接続を待機
 
-### プレイヤーB（クライアント / 発信側）
+### プレイヤーB（発信側）
 
 1. PCSX2を開き、**Settings > Controllers > USB > Port 1** に移動
 2. Device Typeを **ME56PS2 Modem** に設定
 3. **Settings** をクリックして設定:
+   - **Receive Side**: 無効（チェックなし） — これでRemote Host入力欄が有効になります
    - **Remote Host**: プレイヤーAのIPアドレス（例: `192.168.1.10`）
    - **Port**: プレイヤーAと同じポート（例: `10023`）
-   - **Server Mode**: 無効（チェックなし）
 4. ゲームを起動し、モデム対戦メニューに進む
 5. 電話番号入力画面で任意の番号を入力（例: `0528#0528`）
 6. 設定済みのRemote HostとPortに自動接続されます
+
+> **注:** Receive Sideが有効な間、Remote Host入力欄は自動的にグレーアウトされます — 発信側でのみ使用される値だからです。
 
 ## 互換性モード（SubType）
 

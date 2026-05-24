@@ -22,23 +22,25 @@
 
 プラグインはPS2のIOPが標準シリアルモデムとして認識する**FTDI FT232ベースUSBモデム**（VID: 0x0590, PID: 0x001A）をエミュレートします。ゲームのATコマンド（ATD、ATA、ATHなど）をインターセプトし、TCPソケット接続に変換します。
 
-- **サーバーモード**: TCP接続の着信を待機（着信側）
-- **クライアントモード**: リモートホストにTCP接続（発信側）
+- **着信側 (Receive Side)**: TCP接続の着信を待機
+- **発信側 (Call Side)**: リモートホストにTCP接続
 - **PPP/ゲームデータ**: TCPトンネルを介して透過的に転送
 
 ## クイックスタート
 
-### プレイヤーA（サーバー）
+### プレイヤーA（着信側）
 
 1. **Settings > Controllers > USB > Port 1** → ME56PS2 Modem
-2. Settings: **Port** = `10023`、**Server Mode** = 有効
+2. Settings: **Receive Side** = 有効（既定値）、**Port** = `10023`
 3. ゲーム起動 → モデム対戦メニュー → 待機
 
-### プレイヤーB（クライアント）
+### プレイヤーB（発信側）
 
 1. **Settings > Controllers > USB > Port 1** → ME56PS2 Modem
-2. Settings: **Remote Host** = プレイヤーAのIP、**Port** = `10023`、**Server Mode** = 無効
+2. Settings: **Receive Side** = 無効、**Remote Host** = プレイヤーAのIP、**Port** = `10023`
 3. ゲーム起動 → モデム対戦メニュー → 任意の番号を入力（例: `0528#0528`）
+
+> Receive Sideが有効な間、Remote Host入力欄は自動的にグレーアウトされます — 発信側でのみ使用される値だからです。
 
 有効なIPアドレスではない番号を入力すると、設定済みのRemote HostとPortに自動接続されます。
 

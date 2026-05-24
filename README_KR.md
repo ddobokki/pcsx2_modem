@@ -22,23 +22,25 @@
 
 플러그인은 PS2의 IOP가 표준 시리얼 모뎀으로 인식하는 **FTDI FT232 기반 USB 모뎀**(VID: 0x0590, PID: 0x001A)을 에뮬레이트합니다. 게임의 AT 명령(ATD, ATA, ATH 등)을 가로채 TCP 소켓 연결로 변환합니다.
 
-- **서버 모드**: TCP 연결 수신 대기 (수신 측)
-- **클라이언트 모드**: 원격 호스트에 TCP 연결 (발신 측)
+- **수신 측 (Receive Side)**: TCP 연결 수신 대기
+- **발신 측 (Call Side)**: 원격 호스트에 TCP 연결
 - **PPP/게임 데이터**: TCP 터널을 통해 투명하게 전달
 
 ## 빠른 시작
 
-### 플레이어 A (서버)
+### 플레이어 A (수신 측)
 
 1. **설정 > 컨트롤러 > USB > Port 1** → ME56PS2 Modem
-2. Settings: **Port** = `10023`, **Server Mode** = 활성화
+2. Settings: **Receive Side** = 활성화 (기본값), **Port** = `10023`
 3. 게임 시작 → 모뎀 멀티플레이 메뉴 → 대기
 
-### 플레이어 B (클라이언트)
+### 플레이어 B (발신 측)
 
 1. **설정 > 컨트롤러 > USB > Port 1** → ME56PS2 Modem
-2. Settings: **Remote Host** = 플레이어 A의 IP, **Port** = `10023`, **Server Mode** = 비활성화
+2. Settings: **Receive Side** = 비활성화, **Remote Host** = 플레이어 A의 IP, **Port** = `10023`
 3. 게임 시작 → 모뎀 멀티플레이 메뉴 → 아무 번호나 입력 (예: `0528#0528`)
+
+> Receive Side가 켜져있는 동안 Remote Host 입력란은 자동으로 회색 처리됩니다 — 발신 측에서만 사용되는 값이기 때문입니다.
 
 유효한 IP 주소가 아닌 번호를 입력하면, 설정된 Remote Host와 Port로 자동 연결됩니다.
 

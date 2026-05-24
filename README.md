@@ -22,23 +22,25 @@ The modem emulation tunnels game data over TCP/IP, allowing two PCSX2 instances 
 
 The plugin emulates an **FTDI FT232-based USB modem** (VID: 0x0590, PID: 0x001A) that the PS2's IOP recognizes as a standard serial modem. AT commands from the game (ATD, ATA, ATH, etc.) are intercepted and translated into TCP socket operations.
 
-- **Server mode**: Listens for incoming TCP connections (answering side)
-- **Client mode**: Connects to a remote host via TCP (calling side)
+- **Receive side**: Listens for incoming TCP connections (answering side)
+- **Call side**: Connects to a remote host via TCP (dialing side)
 - **PPP/game data**: Passed through transparently over the TCP tunnel
 
 ## Quick Start
 
-### Player A (Server)
+### Player A (Receive side)
 
 1. **Settings > Controllers > USB > Port 1** → ME56PS2 Modem
-2. Settings: **Port** = `10023`, **Server Mode** = Enabled
+2. Settings: **Receive Side** = Enabled (default), **Port** = `10023`
 3. Start game → enter modem multiplayer menu → wait
 
-### Player B (Client)
+### Player B (Call side)
 
 1. **Settings > Controllers > USB > Port 1** → ME56PS2 Modem
-2. Settings: **Remote Host** = Player A's IP, **Port** = `10023`, **Server Mode** = Disabled
+2. Settings: **Receive Side** = Disabled, **Remote Host** = Player A's IP, **Port** = `10023`
 3. Start game → enter modem multiplayer menu → dial any number (e.g., `0528#0528`)
+
+> The Remote Host field is automatically greyed out while Receive Side is enabled — it's only used by the call side.
 
 When you enter a number that is not a valid IP address, the configured Remote Host and Port are used automatically.
 
