@@ -1087,7 +1087,7 @@ namespace usb_modem
 
 		s->remote_host = USB::GetConfigString(si, port, TypeName(), "RemoteHost", "");
 		s->remote_port = USB::GetConfigInt(si, port, TypeName(), "RemotePort", 10023);
-		s->server_mode = USB::GetConfigBool(si, port, TypeName(), "ServerMode", false);
+		s->server_mode = USB::GetConfigBool(si, port, TypeName(), "ServerMode", true);
 
 		// Map SubType index to tuning knobs. Index 0 (MOD_BALANCED) is the default
 		// for users with no prior modem_subtype entry in PCSX2.ini.
@@ -1205,18 +1205,18 @@ namespace usb_modem
 	{
 		(void)subtype; // All three modes share the same user-facing settings.
 		static constexpr const SettingInfo info[] = {
+			{SettingInfo::Type::Boolean, "ServerMode", TRANSLATE_NOOP("USB", "Receive Side"),
+				TRANSLATE_NOOP("USB", "Enable on the receive side (waits for an incoming call). Disable on the call side (dials out to the receive side).\n\n"
+				"Based on me56ps2-emulator by msawahara\n"
+				"https://github.com/msawahara/me56ps2-emulator\n"
+				"PCSX2 port by ChungSo"),
+				"true", nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, 0.0f},
 			{SettingInfo::Type::String, "RemoteHost", TRANSLATE_NOOP("USB", "Remote Host"),
-				TRANSLATE_NOOP("USB", "IP address of the remote player (client mode) or bind address (server mode)."),
+				TRANSLATE_NOOP("USB", "IP address of the remote player. Ignored when Receive Side is enabled."),
 				"", nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, 0.0f},
 			{SettingInfo::Type::Integer, "RemotePort", TRANSLATE_NOOP("USB", "Port"),
 				TRANSLATE_NOOP("USB", "TCP port number for the modem connection."),
 				"10023", "1", "65535", "1", nullptr, nullptr, nullptr, 0.0f},
-			{SettingInfo::Type::Boolean, "ServerMode", TRANSLATE_NOOP("USB", "Server Mode"),
-				TRANSLATE_NOOP("USB", "Enable to wait for incoming connections (answering side). Disable to dial out (calling side).\n\n"
-				"Based on me56ps2-emulator by msawahara\n"
-				"https://github.com/msawahara/me56ps2-emulator\n"
-				"PCSX2 port by ChungSo"),
-				"false", nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, 0.0f},
 		};
 		return info;
 	}
@@ -1258,7 +1258,7 @@ namespace usb_modem
 
 		std::string new_host = USB::GetConfigString(si, 0, TypeName(), "RemoteHost", "");
 		int new_port = USB::GetConfigInt(si, 0, TypeName(), "RemotePort", 10023);
-		bool new_server = USB::GetConfigBool(si, 0, TypeName(), "ServerMode", false);
+		bool new_server = USB::GetConfigBool(si, 0, TypeName(), "ServerMode", true);
 
 		if (new_host != s->remote_host || new_port != s->remote_port || new_server != s->server_mode)
 		{

@@ -733,6 +733,19 @@ void ControllerCustomSettingsWidget::createSettingWidgets(const char* translatio
 	layout->addLayout(bottom_hlayout, current_row++, 0, 1, 4);
 
 	layout->addItem(new QSpacerItem(1, 1, QSizePolicy::Minimum, QSizePolicy::Expanding), current_row++, 0, 1, 4);
+
+	// USB modem: grey out Remote Host when Receive Side is enabled.
+	if (m_config_prefix == "modem_")
+	{
+		QCheckBox* server_cb = widget_parent->findChild<QCheckBox*>(QStringLiteral("ServerMode"));
+		QLineEdit* host_le = widget_parent->findChild<QLineEdit*>(QStringLiteral("RemoteHost"));
+		if (server_cb && host_le)
+		{
+			host_le->setEnabled(!server_cb->isChecked());
+			QObject::connect(server_cb, &QCheckBox::toggled, host_le,
+				[host_le](bool checked) { host_le->setEnabled(!checked); });
+		}
+	}
 }
 
 void ControllerCustomSettingsWidget::restoreDefaults()
